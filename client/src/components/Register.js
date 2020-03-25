@@ -74,20 +74,17 @@ class Register extends React.Component {
                         }
                     } else {
                         console.log("success");
-                        this.props.history.push('/welcome');
                     }
                 }
             })
             .catch((err) => {
-                alert("Error loading image"); 
+                console.log(err);
             });
-            
-            
+            this.props.history.push('/welcome');
         }) 
         .catch((err) => {
             this.setState({errorMsg: err.response.data});
-        }) 
-        
+        })   
     }
 
     componentWillUnmount() {
