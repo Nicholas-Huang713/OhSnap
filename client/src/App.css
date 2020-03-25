@@ -1,0 +1,130 @@
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  height: 100%;
+  font-family: 'Rubik', sans-serif;
+}
+
+.logo-font {
+  font-family: 'Pacifico', cursive;
+}
+
+.home-style{
+  background-image: url('./images/background-man.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Permanent Marker', cursive;
+  background-position: center;
+}
+
+.home-image{
+  width: 90%;
+  height: 90%;
+  opacity:0.7;
+}
+
+.home-image:hover {
+  opacity:1.0;
+}
+
+.login-style{
+  width: 100%;
+  background-image: url('./images/camera-wood.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top:3%;
+  padding-bottom: 10%;
+}
+
+.reg-style{
+  width: 100%;
+  background-image: url('./images/table.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top:4%;
+  padding-bottom: 3%;
+}
+
+.form-bg {
+  opacity: 0.9;
+}
+
+.form-content {
+  color: black;
+  margin:5%;
+}
+
+.welcome-bg {
+  background-image: url('./images/welcome.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Permanent Marker', cursive;
+  background-position: center;
+  padding-top: 15%;
+  padding-bottom: 20%;
+}
+
+.dashboard-profile:hover {
+  opacity: 0.7;
+}
+
+.profile-preview {
+  width: 110px;
+  height: 90px;
+}
+
+.post-profile {
+  width: 40px;
+  height: 40px;
+}
+
+.post-profile:hover {
+  opacity: 0.7;
+}
+
+.album-profile {
+  width: 50px;
+  height: 50px;
+}
+
+.img-container {
+  max-width: 33.33%;
+  display: inline-block;
+}
+
+.user-img-style {
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+
+}
+
+.upload-btn {
+  background:none;
+  border:none;
+}
+
+.upload-btn:hover{
+  opacity: 0.7;
+}
+
+.close-btn {
+  background:none;
+  border:none;
+}
+
+.close-btn:hover{
+  opacity: 0.7;
+}
+
+.close-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.open-modal-btn {
+  width: 35px;
+  height: 35px;
+}

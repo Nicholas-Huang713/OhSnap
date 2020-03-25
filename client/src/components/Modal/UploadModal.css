@@ -1,0 +1,17 @@
+.preview-img {
+  width: 100%;
+  height: auto;
+}
+
+.input-style{
+  width: 100%;
+}
+
+.comment-profile {
+  width:40px;
+  height: 40px;
+}
+
+li {
+  list-style: none;
+}

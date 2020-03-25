@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.3c0785fe.chunk.css",
+    "main.js": "/static/js/main.9e6b8713.chunk.js",
+    "main.js.map": "/static/js/main.9e6b8713.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.ef76e641.js",
+    "runtime-main.js.map": "/static/js/runtime-main.ef76e641.js.map",
+    "static/js/2.3df0a640.chunk.js": "/static/js/2.3df0a640.chunk.js",
+    "static/js/2.3df0a640.chunk.js.map": "/static/js/2.3df0a640.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.4c2a2a7b842da58bf2d5b68e58ca4d19.js": "/precache-manifest.4c2a2a7b842da58bf2d5b68e58ca4d19.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.3c0785fe.chunk.css.map": "/static/css/main.3c0785fe.chunk.css.map",
+    "static/js/2.3df0a640.chunk.js.LICENSE.txt": "/static/js/2.3df0a640.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/static/media/welcome.0d8e642f.jpg",
+    "static/media/beach-camera.jpg": "/static/media/beach-camera.af68f380.jpg",
+    "static/media/logo.png": "/static/media/logo.22144068.png",
+    "static/media/phone.jpg": "/static/media/phone.ee52e99d.jpg",
+    "static/media/view.jpg": "/static/media/view.b70e1657.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ef76e641.js",
+    "static/js/2.3df0a640.chunk.js",
+    "static/css/main.3c0785fe.chunk.css",
+    "static/js/main.9e6b8713.chunk.js"
+  ]
+}

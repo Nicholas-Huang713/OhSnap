@@ -1,0 +1,39 @@
+@media (min-width: 300px) { 
+    .user-img-height{
+      height: 100px;
+    }
+  }
+  
+  /* Extra mall devices (landscape phones, 576px and up) */
+  @media (min-width: 420px) { 
+    .user-img-height{
+      height: 150px;
+    }
+  }
+  
+  /* Small devices (landscape phones, 576px and up)
+  @media (min-width: 576px) { 
+    .user-img-height{
+      height: 200px;
+    }
+  } */
+  
+  /* Large devices (desktops, 992px and up) */
+  @media (min-width: 992px) { 
+    .user-img-height{
+      height: 250px;
+    }
+  }
+  
+  /* Extra large devices (large desktops, 1200px and up) */
+  @media (min-width: 1200px) { 
+    .user-img-height{
+      height: 310px;
+    }
+  }
+  
+  @media (min-width: 2300px) { 
+    .user-img-height{
+      height: 350px;
+    }
+  }
