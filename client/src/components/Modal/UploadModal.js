@@ -49,10 +49,10 @@ class UploadModal extends React.Component {
       method: 'POST',
       data: newImage,
       headers: {
-          'accept': 'application/json',
-          'accept-language': 'en-US,en;q=0.8',
-          'Content-Type': `multipart/form-data; boundary=${newImage._boundary}`,
-          'Authorization' : `Bearer ${jwt}`
+        'accept': 'application/json',
+        'accept-language': 'en-US,en;q=0.8',
+        'Content-Type': `multipart/form-data; boundary=${newImage._boundary}`,
+        'Authorization' : `Bearer ${jwt}`
       }
     })
     .then((res) => {
@@ -62,11 +62,10 @@ class UploadModal extends React.Component {
       this.props.refreshList(list);
     })
     .catch((error) => {
-        console.log(error)
-        alert("Error loading image");
-        this.setDefaultImage();
-    });
-    
+      console.log(error)
+      alert("Error loading image");
+      this.setDefaultImage();
+    }); 
   };
 
   setDefaultImage() {
@@ -111,10 +110,7 @@ class UploadModal extends React.Component {
             </div>
             <div className="col-sm"></div>
           </div>
-          
-            
         </div>
-    
     );
   }
 }

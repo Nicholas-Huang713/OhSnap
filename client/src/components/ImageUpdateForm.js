@@ -75,7 +75,7 @@ class ImageUpdateForm extends React.Component {
                 } else {
                     // Success
                     let fileName = response.data;
-                    console.log( 'filedata', fileName );
+                    console.log('filedata', fileName );
                     alert("New profile photo uploaded")
                     this.props.retrieveUser();
                     this.props.retrieveAllUsers();
@@ -106,6 +106,7 @@ class ImageUpdateForm extends React.Component {
                 <h5>Profile Photo Update</h5>
                 <img src={current} className="img-thumbnail preview-img" alt="current image" />
                 <form onSubmit={this.handleProfileUpdate}>
+                <span className="text-danger">{this.state.errorMsg}</span>
                     <div className="input-group">
                         <div className="custom-file">
                             <input type="file" className="custom-file-input" onChange={this.imageChange} />

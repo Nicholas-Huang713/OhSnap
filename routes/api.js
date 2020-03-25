@@ -74,7 +74,7 @@ router.post('/img-upload/:id', (req, res) => {
     imgUpload(req, res, (error) => {
         if(error){
             console.log( 'errors', error);
-            res.json({error: error});
+            res.json(error);
         } else {
             if( req.file === undefined ){
                 console.log( 'Error: No File Selected!' );
@@ -348,9 +348,11 @@ router.put('/postcomment', verifyToken, (req, res) => {
         creatorImg: req.body.creatorImg, 
         content: req.body.content
     });
-    comment.save();
     Post.updateOne({_id: req.body.postId}, {$push: {comments: comment}})
-    .then(() => {(data) => {res.json(data)}})
+    .then((data) => {
+        comment.save();
+        res.json(data)
+    })
     .catch((error) => {console.log('Error: ' + error)});
 })
 

@@ -50,36 +50,42 @@ class Register extends React.Component {
             localStorage.setItem('token', token);
             const id = res.data.id;
             let newImg = new FormData();
-            // if (selectedFile) {
-                newImg.append("image", selectedFile, selectedFile.name);
-                axios({
-                    url: `/api/img-upload/${id}`,
-                    method: 'POST',
-                    data: newImg,
-                    headers: {
-                        'accept': 'application/json',
-                        'accept-language': 'en-US,en;q=0.8',
-                        'Content-Type': `multipart/form-data; boundary=${newImg._boundary}`,
+            newImg.append("image", selectedFile, selectedFile.name);
+            axios({
+                url: `/api/img-upload/${id}`,
+                method: 'POST',
+                data: newImg,
+                headers: {
+                    'accept': 'application/json',
+                    'accept-language': 'en-US,en;q=0.8',
+                    'Content-Type': `multipart/form-data; boundary=${newImg._boundary}`,
+                }
+            })
+            .then((res) => {
+                if ( 200 === res.status ) {
+                    // If file size is larger than expected.
+                    if( res.data.error ) {
+                        if ( 'LIMIT_FILE_SIZE' === res.data.error.code ) {
+                        this.setState({ errorMsg: 'Max size: 2MB' });
+                        } else {
+                            console.log( res.data );
+                            // If not the given file type
+                            this.setState({ errorMsg: "File must be an image" });
+                        }
+                    } else {
+                        console.log("success");
+                        this.props.history.push('/welcome');
                     }
-                })
-                .then((res) => {
-                    // const token = res.data;
-                    // localStorage.setItem('token', token);
-                    console.log("success");
-                    
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
-            // }  
-            // const token = res.data;
-            // console.log(token);
-            this.props.history.push('/welcome');
+                }
+            })
+            .catch((err) => {
+                alert("Error loading image"); 
+            });
+            
             
         }) 
         .catch((err) => {
-            // this.setState({errorMsg: err.response.data});
-            console.log(err.response.data);
+            this.setState({errorMsg: err.response.data});
         }) 
         
     }
