@@ -167,8 +167,8 @@ class CommentModal extends React.Component {
                     </ul>
                 </div>
                 <div className="col">
-                    <img src={uparrow} alt="up button" onClick={this.pageUp} />
-                    <img src={downarrow} alt="down button" onClick={this.pageDown}/>
+                    <img src={uparrow} className="arrow-btn" alt="up button" onClick={this.pageUp} />
+                    <img src={downarrow} className="arrow-btn" alt="down button" onClick={this.pageDown}/>
                 </div>
             </div>
             

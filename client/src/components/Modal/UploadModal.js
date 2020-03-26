@@ -2,6 +2,7 @@ import React from 'react';
 import './UploadModal.css';
 import axios from 'axios';
 import {getJwt} from '../../helpers/jwt';
+import loading from './../../images/loading.gif';
 
 class UploadModal extends React.Component {
   state = {
@@ -9,12 +10,12 @@ class UploadModal extends React.Component {
     currentImage: "https://dogisworld.com/wp-content/uploads/2019/05/goldie.jpg",
     title: "",
     description: "",
-    errorMsg: ""
+    errorMsg: "",
+    hasSubmitted: false
   };
 
   imageChange = (e) => {
     if(!e.target.files[0]) return;
-    console.log(e.target.files[0]);
     this.setState({
       currentImage: URL.createObjectURL(e.target.files[0]),
       selectedFile: e.target.files[0]
@@ -38,6 +39,7 @@ class UploadModal extends React.Component {
       return;
     }
     e.preventDefault();
+    this.setState({hasSubmitted: true});
     const jwt = getJwt();
     let newImage = new FormData();
     newImage.append("image", selectedFile, selectedFile.name);
@@ -57,27 +59,26 @@ class UploadModal extends React.Component {
     })
     .then((res) => {
       const list = res.data; 
-      alert("Image uploaded");
       this.setDefaultImage();
       this.props.refreshList(list);
     })
     .catch((error) => {
-      console.log(error)
-      alert("Error loading image");
+      this.setState({errorMsg: "Images only!"});
       this.setDefaultImage();
     }); 
   };
 
   setDefaultImage() {
     this.setState({
-      multerImage: "https://dogisworld.com/wp-content/uploads/2019/05/goldie.jpg"
+      multerImage: "https://dogisworld.com/wp-content/uploads/2019/05/goldie.jpg",
+      hasSubmitted: false
     })
   };
 
   render() {
-    const {description, currentImage} = this.state;
+    const {description, currentImage, hasSubmitted} = this.state;
     return (
-        <div className="text-center">
+        <div className="container text-center">
           <div className="row">
             <div className="col-sm"></div>
             <div className="col-sm-8">
@@ -105,7 +106,8 @@ class UploadModal extends React.Component {
                     onChange={this.handleChange}
                     ></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary">Post</button>
+                <button type="submit" className="btn btn-primary">Post</button> 
+                {hasSubmitted && <img src={loading} alt="progress loading" />}
               </form>
             </div>
             <div className="col-sm"></div>

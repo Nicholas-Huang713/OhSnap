@@ -61,7 +61,7 @@ class Dashboard extends React.Component {
       .then((res) => {
           const posts = res.data;
           this.setState({
-            postList: posts.reverse()
+            postList: posts
           });
           console.log("State Post list: " + this.state.postList);
       })
@@ -196,7 +196,7 @@ class Dashboard extends React.Component {
               <button onClick={() => this.handleUserModals("showProfileFormModal", false)} className="close-btn"><img src={closeIcon} className="close-icon"/></button>
               <ProfileUpdateForm closeProfileForm={this.closeProfileForm} retrieveUser={this.retrieveUser} retrieveAllPosts={this.retrieveAllPosts} retrieveAllUsers={this.retrieveAllUsers} />
           </Modal>
-          <div className="col-sm-6"> 
+          <div className="col-sm-6 dashboard-post-list"> 
             {
               postList.map((post) => {
                 return (
@@ -233,22 +233,24 @@ class Dashboard extends React.Component {
           </div>
           <div className="col-sm">
             <h5>Photographers</h5>
-            <ul className="list-unstyled">
-            {
-              allUsers.map((user) => {
-                if(user._id === userId) return;
-                return (
-                  <li key={user._id} className="media">
-                    <img src={user.imageData} onClick={() => this.handleOpenAlbumModal(user._id)} className="mr-3 rounded-circle post-profile" alt="profile" />
-                    <div className="media-body">
-                      <h5 className="mt-0 mb-1">{user.firstname}</h5>
-                      {user.posts.length} posts 
-                    </div>
-                  </li>
-                )
-              })
-            }
-            </ul>
+            <div className="dashboard-user-list">
+              <ul className="list-unstyled">
+              {
+                allUsers.map((user) => {
+                  if(user._id === userId) return;
+                  return (
+                    <li key={user._id} className="media">
+                      <img src={user.imageData} onClick={() => this.handleOpenAlbumModal(user._id)} className="mr-3 rounded-circle post-profile" alt="profile" />
+                      <div className="media-body">
+                        <h5 className="mt-0 mb-1">{user.firstname}</h5>
+                        {user.posts.length} posts 
+                      </div>
+                    </li>
+                  )
+                })
+              }
+              </ul>
+            </div>
           </div>
           <Modal isOpen={this.state.showAlbumModal}>   
               <button onClick={this.handleCloseAlbumModal} className="close-btn"><img src={closeIcon} className="close-icon"/></button>

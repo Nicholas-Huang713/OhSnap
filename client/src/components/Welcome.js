@@ -35,7 +35,7 @@ class Welcome extends React.Component {
 
     render() {
         return (
-            <div className="jumbotron jumbotron-fluid welcome-bg text-white">
+            <div className="welcome-bg text-white">
                 <div className="container">
                     <h1 className="display-4">Welcome to ohSnap! </h1>
                     <p className="lead">Thanks for joining us <span className="text-large">{this.state.firstName}</span></p>

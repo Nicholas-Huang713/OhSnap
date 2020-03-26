@@ -47,7 +47,7 @@ function checkFileType( file, cb ){
     }
 }
 
-//UPLOADE IMAGE TO S3
+//UPLOAD IMAGE TO S3
 router.post('/img-upload', (req, res) => {
     imgUpload(req, res, (error) => {
         if(error){
@@ -233,7 +233,7 @@ router.put('/updateprofileimg', verifyToken, async (req, res, next) => {
             }
         }
     });
-});
+});   
 
 //UPDATE USER PROFILE INFO
 router.put('/updateprofile', verifyToken, async (req, res, next) => {
@@ -288,7 +288,7 @@ router.get('/getuser/:id', verifyToken, (req, res) => {
 
 //GET ALL POSTS 
 router.get('/getposts', (req, res) => {
-    Post.find({})
+    Post.find({}).sort({date: -1})
     .then((data) => {res.json(data)})
     .catch((error) => {console.log('Error: ' + error)});
 })

@@ -34,8 +34,8 @@
   background-image: url('./images/camera-wood.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  padding-top:3%;
-  padding-bottom: 10%;
+  padding-top:6%;
+  height: 100vh;
 }
 
 .reg-style{
@@ -43,8 +43,8 @@
   background-image: url('./images/table.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  padding-top:4%;
-  padding-bottom: 3%;
+  padding-top:6%;
+  height: 100vh;
 }
 
 .form-bg {
@@ -61,9 +61,8 @@
   background-repeat: no-repeat;
   background-size: cover;
   font-family: 'Permanent Marker', cursive;
-  background-position: center;
   padding-top: 15%;
-  padding-bottom: 20%;
+  height:93vh;
 }
 
 .dashboard-profile:hover {
@@ -71,8 +70,18 @@
 }
 
 .profile-preview {
-  width: 110px;
+  width: 100px;
   height: 90px;
+}
+
+.dashboard-post-list {
+  height: 100vh;
+  overflow: scroll;
+}
+
+.dashboard-user-list {
+  height: 50vh;
+  overflow: scroll;
 }
 
 .post-profile {
@@ -87,6 +96,10 @@
 .album-profile {
   width: 50px;
   height: 50px;
+}
+
+.album-profile:hover {
+  opacity: 0.7;
 }
 
 .img-container {
@@ -127,4 +140,9 @@
 .open-modal-btn {
   width: 35px;
   height: 35px;
+}
+
+.preview-img {
+  width: 50%;
+  height: auto;
 }

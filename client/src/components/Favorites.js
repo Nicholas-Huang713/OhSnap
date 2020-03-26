@@ -54,11 +54,11 @@ class Favorites extends React.Component {
     render() {
         const {currentUser, faveList, posts} = this.state;
         if(currentUser === undefined){
-            return <h1>Loading...</h1>
+            return <span>Loading...</span>
         }
         return (
-        <div className="container-fluid">
-            <h4>Favorites</h4>
+        <div className="container mt-2">
+            <h3>Favorites</h3>
             <hr />
             <div className="row">
                 {

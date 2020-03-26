@@ -1,12 +1,12 @@
 import React from 'react';
 import '../App.css';
-// import '../Album.css';
 import axios from 'axios';
 import {getJwt} from '../helpers/jwt';
 import UploadModal from './Modal/UploadModal';
 import Modal from 'react-modal';
 import plusIcon from '../images/plusicon.png';
 import closeIcon from '../images/closeicon.png';
+import {withRouter} from 'react-router-dom';
 
 class Album extends React.Component {
     state = {
@@ -86,9 +86,9 @@ class Album extends React.Component {
             userId = currentUser[0]._id;
         }
         return (
-        <div className="container-fluid">
+        <div className="container">
             <h4>
-                <img src={profileImg} className="rounded-circle album-profile mr-1 mt-2" alt="profile"/> 
+                <img src={profileImg} onClick={()=> this.props.history.push('/dashboard')} className="rounded-circle album-profile mr-1 mt-2" alt="profile"/> 
                 {firstName}  
             </h4>
             <button className="upload-btn" onClick={this.handleOpenModal}><img src={plusIcon} className="open-modal-btn"/></button>
@@ -97,10 +97,6 @@ class Album extends React.Component {
                 <UploadModal refreshList={this.refreshList} retrieveUser={this.retrieveUser} firstName={firstName} profileImg= {profileImg}/>
             </Modal>
             <hr />
-
-            
-
-
             <div className="row">
                 {
                     postList.map((post) => {
@@ -125,4 +121,4 @@ class Album extends React.Component {
     }
 }
 
-export default Album; 
+export default withRouter(Album); 
