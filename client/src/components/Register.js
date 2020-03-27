@@ -105,7 +105,7 @@ class Register extends React.Component {
                     <div className="bg-white form-bg">
                         <div className="form-content">
                             <form onSubmit={this.handleRegister} encType="multipart/form-data">
-                                <h3>Create Your Account <img className="rounded-circle profile-preview" src={currentImage} /></h3>
+                                <h3>Create Your Account <img className="rounded-circle profile-preview" src={currentImage} alt="current profile" /></h3>
                                 <p className="text-danger">{errorMsg}</p>
                                 <div className="form-row">
                                     <div className="form-group col-md-6 col-lg-6">

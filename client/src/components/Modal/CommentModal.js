@@ -75,14 +75,14 @@ class CommentModal extends React.Component {
         headers: {'Authorization' : `Bearer ${jwt}`}
         })
         .then((res) => {
-            
+            this.setState({commentText: ""});
+            this.getPostComments();
             console.log("Comments " + this.state.comments);
         })
         .catch((err) => {
             console.log('Error:' + err);
     });
-    this.setState({commentText: ""});
-    this.getPostComments();
+    
   }
 
   pageUp = () => {
@@ -155,7 +155,7 @@ class CommentModal extends React.Component {
                                     <li key={comment._id}>
                                         <div className="card">
                                             <div className="card-body">
-                                            <img src={comment.creatorImg} className="rounded-circle comment-profile mr-1"/>
+                                            <img src={comment.creatorImg} className="rounded-circle comment-profile mr-1" alt="creator profile" />
                                             <b className="mr-2">{comment.creatorName}</b>  
                                             {comment.content}
                                             </div>

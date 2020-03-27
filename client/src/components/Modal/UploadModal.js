@@ -58,9 +58,20 @@ class UploadModal extends React.Component {
       }
     })
     .then((res) => {
-      const list = res.data; 
-      this.setDefaultImage();
-      this.props.refreshList(list);
+      const list = res.data.reverse(); 
+      // axios({
+      //   url: '/api/getloguserposts',
+      //   method: 'GET',
+      //   headers: {'Authorization' : `Bearer ${jwt}`}
+      // })
+      // .then((res) => {
+      //   const list = res.data.reverse();
+        this.props.refreshList(list);
+      // })
+      // .catch((err) => {
+      //   console.log(err);
+      // })
+      // // this.setDefaultImage();
     })
     .catch((error) => {
       this.setState({errorMsg: "Images only!"});

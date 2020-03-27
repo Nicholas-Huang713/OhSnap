@@ -4,7 +4,6 @@ import view from '../images/view.jpg';
 import beach from '../images/beach-camera.jpg';
 import phone from '../images/phone.jpg';
 import {withRouter, Link} from 'react-router-dom';
-import axios from 'axios';
 
 class Home extends React.Component{
     constructor( props ) {

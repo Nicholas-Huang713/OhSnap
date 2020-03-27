@@ -1,8 +1,6 @@
 import React from 'react';
 import '../App.css';
 import axios from 'axios';
-import {useDispatch} from 'react-redux';
-import {dashboard} from '../actions';
 
 class Login extends React.Component {
     constructor(props){
@@ -34,8 +32,6 @@ class Login extends React.Component {
         })
         .then((res) => {
             localStorage.setItem('token', res.data);
-            // const dispatch = useDispatch();
-            // dispatch(dashboard());
             this.props.history.push('/dashboard');
         })
         .catch((err) => {

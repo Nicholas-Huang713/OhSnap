@@ -62,7 +62,7 @@
   background-size: cover;
   font-family: 'Permanent Marker', cursive;
   padding-top: 15%;
-  height:93vh;
+  height: 93vh;
 }
 
 .dashboard-profile:hover {
@@ -75,13 +75,17 @@
 }
 
 .dashboard-post-list {
-  height: 100vh;
-  overflow: scroll;
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+.dashboard-post-list::-webkit-scrollbar {
+  display: none
 }
 
 .dashboard-user-list {
   height: 50vh;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .post-profile {
@@ -93,6 +97,12 @@
   opacity: 0.7;
 }
 
+.album-style {
+  height: 75vh;
+  overflow-y: scroll;
+  overflow-x:hidden;
+}
+
 .album-profile {
   width: 50px;
   height: 50px;
@@ -100,6 +110,12 @@
 
 .album-profile:hover {
   opacity: 0.7;
+}
+
+.description-container:hover {
+  border: solid;
+  border-color: lightgray;
+  border-radius: 10%;
 }
 
 .img-container {
@@ -111,12 +127,11 @@
   object-fit: cover;
   width: 100%;
   height: auto;
-
 }
 
 .upload-btn {
-  background:none;
-  border:none;
+  background: none;
+  border: none;
 }
 
 .upload-btn:hover{
@@ -124,8 +139,8 @@
 }
 
 .close-btn {
-  background:none;
-  border:none;
+  background: none;
+  border: none;
 }
 
 .close-btn:hover{

@@ -118,7 +118,8 @@ router.post('/register', async (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email, 
-        password: hashedPassword
+        password: hashedPassword,
+        posts: 0
     });
     try{
         await user.save();
@@ -155,47 +156,23 @@ router.post('/newpost', verifyToken, (req, res) => {
                     imageData: imageLocation,
                     description: req.body.description
                 });
-                
-                User.updateOne({_id: decodedId}, {$push: {posts: newPost}})
-                .then(() => {
-                    newPost.save();
-                    User.findOne({_id: decodedId})
-                    .then((data) => {
-                        const posts = data.posts;
-                        res.json(posts);
+                newPost.save();
+                Post.find({creatorId: decodedId})
+                .then((data) => {
+                    User.updateOne({_id: decodedId}, {$inc: {posts: 1}})
+                    .then(() => {
+                        console.log("Added to posts");
                     })
-                    .catch((err) => {
-                        res.json(err);
-                    })
+                    .catch(err => res.json(err)); 
+                    res.json(data);
                 })
-                .catch(err => res.json(err));
+                .catch((err) => {
+                    res.json(err);
+                })
+
             }
         }
     });
-});
-
-//CREATE NEW POST
-router.put('/createpost', verifyToken, (req, res, next) => {
-    console.log(req.body);
-    const decodedId = jwt.verify(req.token,  process.env.TOKEN_SECRET);
-    const newPost = new Post({
-        creatorId: decodedId, 
-        creatorName: req.body.creatorName,
-        profileImg: req.body.profileImg,
-        imageName: req.body.imageName,
-        imageData: req.body.imageLocation,
-        description: req.body.description
-    });
-    newPost.save();
-    User.updateOne({_id: decodedId}, {$push: {posts: newPost}})
-    .then(() => {
-        res.status(200).json({
-            success: true,
-            document: result
-        });
-        console.log("Successfully created post");
-    })
-    .catch(err => res.json(err));
 });
 
 //UPDATE USER PROFILE PHOTO
@@ -255,8 +232,35 @@ router.put('/updateprofile', verifyToken, async (req, res, next) => {
             .catch((error) => {console.log('Error: ' + error)});
         })
     .catch((error) => {console.log('Error: ' + error)});
-    
 });
+
+//UPDATE SINGLE POST IMAGE
+router.put('/updatepostimg/:postId', verifyToken, async (req, res, next) => {
+    const decodedId = await jwt.verify(req.token,  process.env.TOKEN_SECRET);
+    imgUpload(req, res, (error) => {
+        if(error){
+            console.log( 'errors', error);
+            res.json({error: error});
+        } else {
+            if( req.file === undefined ){
+                console.log( 'Error: No File Selected!' );
+                res.json( 'Error: No File Selected' );
+            } else {
+                const imageName = req.file.key;
+                const imageLocation = req.file.location;
+                Post.updateOne({_id: req.params.postId}, {$set: {
+                    imageName, imageData: imageLocation
+                }})
+                .then(() => {
+                    Post.findOne({_id: req.params.postId})
+                    .then((data) => {res.json(data)})
+                    .catch((error) => console.log('Error: ' + error))
+                })
+                .catch((error) => console.log('Error: ' + error));
+            }
+        }
+    });
+});   
 
 //GET ALL USERS
 router.get('/', (req, res) => {
@@ -285,6 +289,20 @@ router.get('/getuser/:id', verifyToken, (req, res) => {
     .catch((error) => {console.log('Error: ' + error)});
 });
 
+//GET SINGLE POST
+router.get('/getonepost/:postId', verifyToken, (req, res) => {
+    Post.findOne({_id: req.params.postId})
+    .then((data) => {res.json(data)})
+    .catch((error) => {console.log('Error: ' + error)});
+})
+
+//GET LOGGED IN USER POSTS
+router.get('/getloguserposts', verifyToken, (req, res) => {
+    const decodedId = jwt.verify(req.token,  process.env.TOKEN_SECRET);
+    Post.find({creatorId: decodedId})
+    .then((data) => {res.json(data)})
+    .catch((error) => {console.log('Error: ' + error)});
+})
 
 //GET ALL POSTS 
 router.get('/getposts', (req, res) => {
@@ -354,6 +372,40 @@ router.put('/postcomment', verifyToken, (req, res) => {
         res.json(data)
     })
     .catch((error) => {console.log('Error: ' + error)});
+})
+
+//EDIT POST DESCRIPTION
+router.put('/editdescription/:postId', verifyToken, (req, res) => {
+    const decodedId = jwt.verify(req.token,  process.env.TOKEN_SECRET);
+    Post.updateOne({_id: req.params.postId}, {$set: {description: req.body.description}})
+    .then(() => {
+        Post.find({creatorId: decodedId})
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    })
+    .catch((error) => {console.log('Error: ' + error)});
+})
+
+//DELETE A POST
+router.delete('/deletePost', verifyToken, (req, res) => {
+    const decodedId = jwt.verify(req.token,  process.env.TOKEN_SECRET);
+    Post.deleteOne({_id: req.body.postId})
+        .then(() => {
+            User.updateOne({_id: decodedId}, {$inc: {posts: -1}})
+            .then(() => {
+                Post.find({creatorId: decodedId})
+                .then((data) => {
+                    res.json(data);
+                })
+                .catch((error) => {console.log('Error: ' + error)});
+            })
+            .catch((error) => {console.log('Error: ' + error)});
+        })
+        .catch((error) => {console.log('Error: ' + error)});
 })
 
 function verifyToken(req, res, next){

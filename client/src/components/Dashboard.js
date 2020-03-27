@@ -7,7 +7,6 @@ import unliked from '../images/unlikedbtn.png';
 import chatTwo from '../images/chat2.png';
 import closeIcon from '../images/closeicon.png';
 import CommentModal from './Modal/CommentModal';
-import UploadModal from './Modal/UploadModal';
 import Modal from 'react-modal';
 import {withRouter} from 'react-router-dom';
 import UserAlbum from './UserAlbum';
@@ -63,7 +62,6 @@ class Dashboard extends React.Component {
           this.setState({
             postList: posts
           });
-          console.log("State Post list: " + this.state.postList);
       })
       .catch((err) => {
           console.log('Error:' + err);
@@ -189,29 +187,29 @@ class Dashboard extends React.Component {
             </div>
           </div>
           <Modal isOpen={this.state.showImageFormModal}>   
-              <button onClick={() => this.handleUserModals("showImageFormModal", false)} className="close-btn"><img src={closeIcon} className="close-icon"/></button>
+              <button onClick={() => this.handleUserModals("showImageFormModal", false)} className="close-btn"><img src={closeIcon} className="close-icon" alt="close icon" /></button>
               <ImageUpdateForm closeImageForm={this.closeImageForm} retrieveUser={this.retrieveUser} retrieveAllPosts={this.retrieveAllPosts} retrieveAllUsers={this.retrieveAllUsers} />
           </Modal>
           <Modal isOpen={this.state.showProfileFormModal}>   
-              <button onClick={() => this.handleUserModals("showProfileFormModal", false)} className="close-btn"><img src={closeIcon} className="close-icon"/></button>
+              <button onClick={() => this.handleUserModals("showProfileFormModal", false)} className="close-btn"><img src={closeIcon} className="close-icon" alt="close icon"/></button>
               <ProfileUpdateForm closeProfileForm={this.closeProfileForm} retrieveUser={this.retrieveUser} retrieveAllPosts={this.retrieveAllPosts} retrieveAllUsers={this.retrieveAllUsers} />
           </Modal>
           <div className="col-sm-6 dashboard-post-list"> 
             {
               postList.map((post) => {
                 return (
-                  <div className="card">
+                  <div className="card" key={post._id}>
                       <div className="card-header">
-                        <img src={post.profileImg} className="rounded-circle post-profile" onClick={() => this.handleOpenAlbumModal(post.creatorId)} /> {post.creatorName}
+                        <img src={post.profileImg} alt="profile" className="rounded-circle post-profile" onClick={() => this.handleOpenAlbumModal(post.creatorId)} /> {post.creatorName}
                       </div>
                       <div className="card-body">
-                        <img className="card-img-top" src={post.imageData} />
+                        <img className="card-img-top" src={post.imageData} alt="post" />
                         {faveList.includes(post._id) ? 
-                          <img src={liked} onClick={() => this.unlikePost(post._id)} className="post-profile" />
+                          <img src={liked} onClick={() => this.unlikePost(post._id)} className="post-profile" alt="unlike button" />
                         :  
-                          <img src={unliked} onClick={() => this.likePost(post._id)} className="post-profile"/>
+                          <img src={unliked} onClick={() => this.likePost(post._id)} className="post-profile" alt="like button" />
                         }  
-                        <img src={chatTwo} className="post-profile" onClick={() => this.handleOpenCommentModal(post._id)} />
+                        <img src={chatTwo} className="post-profile" onClick={() => this.handleOpenCommentModal(post._id)} alt="comment link" />
                         {post.description}
                         <div className="row ml-2">
                           {post.likes.length} likes
@@ -226,7 +224,7 @@ class Dashboard extends React.Component {
             }
 
             <Modal isOpen={this.state.showCommentModal}>   
-                <button onClick={this.handleCloseCommentModal} className="close-btn"><img src={closeIcon} className="close-icon"/></button>
+                <button onClick={this.handleCloseCommentModal} className="close-btn"><img src={closeIcon} className="close-icon" alt="close icon"/></button>
                 <CommentModal creatorId={userId} postId={this.state.postId} firstName={firstName} profile={profile} />
             </Modal>
 
@@ -243,7 +241,7 @@ class Dashboard extends React.Component {
                       <img src={user.imageData} onClick={() => this.handleOpenAlbumModal(user._id)} className="mr-3 rounded-circle post-profile" alt="profile" />
                       <div className="media-body">
                         <h5 className="mt-0 mb-1">{user.firstname}</h5>
-                        {user.posts.length} posts 
+                        {user.posts} posts 
                       </div>
                     </li>
                   )
@@ -253,7 +251,7 @@ class Dashboard extends React.Component {
             </div>
           </div>
           <Modal isOpen={this.state.showAlbumModal}>   
-              <button onClick={this.handleCloseAlbumModal} className="close-btn"><img src={closeIcon} className="close-icon"/></button>
+              <button onClick={this.handleCloseAlbumModal} className="close-btn"><img src={closeIcon} className="close-icon" alt="close icon"/></button>
               <UserAlbum albumUserId={this.state.albumUserId} />
           </Modal>
         </div>
