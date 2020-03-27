@@ -11,6 +11,22 @@ const aws = require( 'aws-sdk' );
 const multerS3 = require( 'multer-s3' );
 const path = require( 'path' );
 const url = require('url');
+const nodemailer = require('nodemailer');
+
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: '',
+        pass: ''
+    }
+})
+
+let mailOptions = {
+    from: 'ohsnapinfo713@gmail.com',
+    to: 'nhuang713@gmail.com',
+    subject: 'Test Email',
+    text: 'Hello from Ohsnap!'
+}
 
 //AWS SDK
 const s3 = new aws.S3({
@@ -120,6 +136,7 @@ router.post('/register', async (req, res) => {
         email: req.body.email, 
         password: hashedPassword,
         posts: 0
+        // admin: true
     });
     try{
         await user.save();
@@ -406,6 +423,32 @@ router.delete('/deletePost', verifyToken, (req, res) => {
             .catch((error) => {console.log('Error: ' + error)});
         })
         .catch((error) => {console.log('Error: ' + error)});
+})
+
+//GIVE ADMIN RIGHTS TO USER
+router.put('/makeAdmin/:id', verifyToken, (req,res) => {
+    User.updateOne({_id: req.params.id}, {$set: {admin: true}})
+    .then(() => {
+        User.find({})
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((error) => {console.log('Error: ' + error)});
+    })
+    .catch((error) => {console.log('Error: ' + error)});
+})
+
+//REMOVE ADMIN RIGHTS
+router.put('/removeAdmin/:id', verifyToken, (req,res) => {
+    User.updateOne({_id: req.params.id}, {$set: {admin: false}})
+    .then(() => {
+        User.find({})
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((error) => {console.log('Error: ' + error)});
+    })
+    .catch((error) => {console.log('Error: ' + error)});
 })
 
 function verifyToken(req, res, next){

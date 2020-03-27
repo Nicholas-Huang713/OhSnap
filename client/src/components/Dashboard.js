@@ -16,6 +16,7 @@ import ProfileUpdateForm from './ProfileUpdateForm';
 class Dashboard extends React.Component {
   state = {
     currentUser: undefined,
+    isAdmin: false,
     profileImage: "",
     firstName: "",
     allUsers: [],
@@ -80,7 +81,8 @@ class Dashboard extends React.Component {
         this.setState({
           currentUser: user,
           profileImage: user[0].imageData,
-          firstName: user[0].firstname
+          firstName: user[0].firstname,
+          isAdmin: user[0].admin
         });
     })
     .catch((err) => {
@@ -158,7 +160,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const {currentUser, allUsers, postList, profileImage, firstName} = this.state;
+    const {currentUser, allUsers, postList, profileImage, firstName, isAdmin} = this.state;
     let name;
     let profile;
     let faveList;
@@ -183,6 +185,9 @@ class Dashboard extends React.Component {
               <div className="card-body">
                 <h5>{name}</h5>
                 <button onClick={() => this.handleUserModals("showProfileFormModal", true)} className="card-link btn btn-primary">Edit Profile</button>
+                {isAdmin && 
+                  <button onClick={() => this.props.history.push('/admin')} className="card-link btn btn-success">Admin Page</button>
+                }
               </div>
             </div>
           </div>

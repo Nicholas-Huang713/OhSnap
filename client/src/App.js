@@ -10,6 +10,8 @@ import Album from './components/Album';
 import PrivateRoute from './components/PrivateRoute';
 import Favorites from './components/Favorites';
 import Welcome from './components/Welcome';
+import Admin from './components/Admin';
+import AdminRoute from './components/AdminRoute';
 
  function App() {
     return (
@@ -25,7 +27,11 @@ import Welcome from './components/Welcome';
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/album" component={Album} />
               <Route path="/favorites" component={Favorites} />
+              <AdminRoute>
+                <Route path="/admin" component={Admin} />
+              </AdminRoute>
             </PrivateRoute>
+            
           </Switch>
         </Router>
       </div>

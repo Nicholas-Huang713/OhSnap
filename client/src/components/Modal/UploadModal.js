@@ -59,19 +59,7 @@ class UploadModal extends React.Component {
     })
     .then((res) => {
       const list = res.data.reverse(); 
-      // axios({
-      //   url: '/api/getloguserposts',
-      //   method: 'GET',
-      //   headers: {'Authorization' : `Bearer ${jwt}`}
-      // })
-      // .then((res) => {
-      //   const list = res.data.reverse();
-        this.props.refreshList(list);
-      // })
-      // .catch((err) => {
-      //   console.log(err);
-      // })
-      // // this.setDefaultImage();
+      this.props.refreshList(list);
     })
     .catch((error) => {
       this.setState({errorMsg: "Images only!"});
@@ -109,7 +97,7 @@ class UploadModal extends React.Component {
                 </div>
                 <div class="form-group mt-1">
                 <span className="text-danger">{this.state.errorMsg}</span>
-                  <textarea class="form-control" rows="5" id="comment" 
+                  <textarea class="form-control" rows="2" id="comment" 
                     type="text" 
                     placeholder="description..."
                     name="description"                            

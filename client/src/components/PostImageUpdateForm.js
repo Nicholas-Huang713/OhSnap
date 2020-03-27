@@ -82,11 +82,8 @@ class ImageUpdateForm extends React.Component {
                         });
                     }
                 } else {
-                    // let fileName = response.data;
-                    // console.log('filedata', fileName );
                     const post = response.data;
                     console.log(post);
-                    alert("Post image updated");
                     this.props.completeImageUpdate();
                 }
             }
@@ -129,7 +126,6 @@ class ImageUpdateForm extends React.Component {
                     </div>
                     <div className="col-sm"></div>
                 </div>
-                
             </div>
         );
     }
