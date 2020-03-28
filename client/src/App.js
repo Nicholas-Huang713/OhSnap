@@ -27,9 +27,7 @@ import AdminRoute from './components/AdminRoute';
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/album" component={Album} />
               <Route path="/favorites" component={Favorites} />
-              <AdminRoute>
-                <Route path="/admin" component={Admin} />
-              </AdminRoute>
+              <Route path="/admin" component={Admin} />
             </PrivateRoute>
             
           </Switch>

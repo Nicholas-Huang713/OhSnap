@@ -8,7 +8,8 @@ const registerValidation = (data) => {
         email: Joi.string().min(5).required().email(),
         password: Joi.string().min(6).required(),
         imageName: Joi.any(),
-        imageData: Joi.any()
+        imageData: Joi.any(),
+        subscribed: Joi.any()
     });
     return schema.validate(data);
 };
@@ -22,17 +23,5 @@ const loginValidation = (data) => {
     return schema.validate(data);
 };
 
-//UPDATE USER PROFILE INFO
-const updateValidation = (data) => {
-    const schema = Joi.object({
-        firstname: Joi.string().min(2),
-        lastname: Joi.string().min(2), 
-        email: Joi.string().min(6).email()
-    });
-    return schema.validate(data);
-};
-
-
-module.exports.updateValidation = updateValidation;
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;

@@ -12,27 +12,36 @@ const multerS3 = require( 'multer-s3' );
 const path = require( 'path' );
 const url = require('url');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
-let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: '',
-        pass: ''
-    }
-})
+// let transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: process.env.EMAIL,
+//         pass: process.env.PASSWORD
+//     }
+// })
 
-let mailOptions = {
-    from: 'ohsnapinfo713@gmail.com',
-    to: 'nhuang713@gmail.com',
-    subject: 'Test Email',
-    text: 'Hello from Ohsnap!'
-}
+// let mailOptions = {
+//     from: 'ohsnapinfo713@gmail.com',
+//     to: 'nhuang713@gmail.com',
+//     subject: 'Test Email',
+//     text: 'Hello from Ohsnap!'
+// }
+
+// transporter.sendMail(mailOptions, function(err, data) {
+//     if(err) {
+//         console.log('Error Occurred');
+//     } else {
+//         console.log('Email sent!')
+//     }
+// });
 
 //AWS SDK
 const s3 = new aws.S3({
-    accessKeyId: 'AKIAYDBVS4R3GC2XJLEH',
-    secretAccessKey: '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',
-    Bucket: 'ohsnapbucket'
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS,
+    Bucket: process.env.BUCKET
 });
 
 //STORAGE
@@ -135,8 +144,7 @@ router.post('/register', async (req, res) => {
         lastname: req.body.lastname,
         email: req.body.email, 
         password: hashedPassword,
-        posts: 0
-        // admin: true
+        subscribed: req.body.subscribed
     });
     try{
         await user.save();
@@ -448,6 +456,51 @@ router.put('/removeAdmin/:id', verifyToken, (req,res) => {
         })
         .catch((error) => {console.log('Error: ' + error)});
     })
+    .catch((error) => {console.log('Error: ' + error)});
+})
+
+//DELETE A USER
+router.delete('/deleteUser/:id', verifyToken, (req, res) => {
+    User.deleteOne({_id: req.params.id})
+        .then(() => {
+            User.find({})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => {console.log('Error: ' + error)});
+        })
+    .catch((error) => {console.log('Error: ' + error)});
+})
+
+//ADMIN DELETE POST
+router.delete('/deletePost/:id', verifyToken, (req, res) => {
+    User.updateOne({_id: req.params.creatorId}, {$inc: {posts: -1}})
+    .then(() => {
+        Post.deleteOne({_id: req.params.id})
+        .then(() => {
+            Post.find({})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => {console.log('Error: ' + error)});
+        })
+        .catch((error) => {console.log('Error: ' + error)});
+    })
+    .catch((error) => {console.log('Error: ' + error)});
+
+    
+})
+
+//ADMIN DELETE COMMENT
+router.delete('/deleteComment/:id', verifyToken, (req, res) => {
+    Comment.deleteOne({_id: req.params.id})
+        .then(() => {
+            Comment.find({})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => {console.log('Error: ' + error)});
+        })
     .catch((error) => {console.log('Error: ' + error)});
 })
 

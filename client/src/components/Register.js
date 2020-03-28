@@ -14,6 +14,7 @@ class Register extends React.Component {
             errorMsg: "",
             selectedFile: "",
             currentImage: "https://dogisworld.com/wp-content/uploads/2019/05/goldie.jpg",
+            subscribed: false
         }
     }
 
@@ -23,6 +24,10 @@ class Register extends React.Component {
         this.setState({ [name] : value });
     }
 
+    handleSubscribeChange = () => {
+        this.setState({subscribed: !this.state.subscribed})
+    }
+    
     imageChange = (e) => {
         console.log(e.target.files[0]);
         this.setState({
@@ -33,12 +38,13 @@ class Register extends React.Component {
 
     handleRegister = (event) => {
         event.preventDefault();
-        const {firstName, lastName, email, password, selectedFile} = this.state;
+        const {firstName, lastName, email, password, selectedFile, subscribed} = this.state;
         const newUser = {
             firstname: firstName,
             lastname: lastName,
             email,
-            password
+            password,
+            subscribed
         }
         axios({
             url: '/api/register',
@@ -63,13 +69,11 @@ class Register extends React.Component {
             })
             .then((res) => {
                 if ( 200 === res.status ) {
-                    // If file size is larger than expected.
                     if( res.data.error ) {
                         if ( 'LIMIT_FILE_SIZE' === res.data.error.code ) {
                         this.setState({ errorMsg: 'Max size: 2MB' });
                         } else {
                             console.log( res.data );
-                            // If not the given file type
                             this.setState({ errorMsg: "File must be an image" });
                         }
                     } else {
@@ -152,8 +156,8 @@ class Register extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <div className="form-check">
-                                        <input className="form-check-input" type="checkbox" id="gridCheck" />
-                                        <label className="form-check-label" htmlFor="gridCheck">
+                                        <input className="form-check-input" type="checkbox" name="subscribed" value={this.state.subscribed} onChange={this.handleSubscribeChange} />
+                                        <label className="form-check-label" htmlFor="Subscribe Checkbox">
                                             Subscribe for updates
                                         </label>
                                     </div>

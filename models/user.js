@@ -17,7 +17,11 @@ const UserSchema = new Schema({
     email: String,
     password: String,
     favelist: [String],
-    posts: Number,
+    posts: {
+        type: Number,
+        default: 0
+    },
+    subscribed: Boolean,
     admin: {
         type: Boolean,
         default: "false"
