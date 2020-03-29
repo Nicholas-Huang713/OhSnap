@@ -3,7 +3,7 @@
 }
 
 .App {
-  height: 100%;
+  height: 100vh;
   font-family: 'Rubik', sans-serif;
 }
 
@@ -35,7 +35,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   padding-top:6%;
-  height: 100vh;
+  height: 93.6vh;
 }
 
 .reg-style{
@@ -44,7 +44,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   padding-top:6%;
-  height: 100vh;
+  height: 93.6vh;
 }
 
 .form-bg {
@@ -62,7 +62,7 @@
   background-size: cover;
   font-family: 'Permanent Marker', cursive;
   padding-top: 15%;
-  height: 93vh;
+  height: 90.9vh;
 }
 
 .dashboard-profile:hover {
@@ -98,7 +98,7 @@
 }
 
 .album-style {
-  height: 75vh;
+  height: 70vh;
   overflow-y: scroll;
   overflow-x:hidden;
 }
@@ -158,6 +158,11 @@
 }
 
 .preview-img {
-  width: 50%;
-  height: auto;
+  width: 60%;
+  /* height: 100vh; */
+}
+ 
+.admin-list-style {
+  height: 65vh;
+  overflow: scroll;
 }

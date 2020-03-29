@@ -108,21 +108,23 @@ class ImageUpdateForm extends React.Component {
            current = currentImage; 
         }
         return (
-            <div className="container mt-3">
+            <div className="container mt-3 text-center">
                 <div className="row">
                     <div className="col-sm"></div>
                     <div className="col-sm-8">
                         <h5>Profile Photo Update</h5>
-                        <img src={current} className="img-thumbnail preview-img" alt="current profile" />
+                        <div className="preview-img">
+                            <img src={current} className="img-thumbnail img-fluid" alt="current profile" />
+                        </div>
                         <form onSubmit={this.handleProfileUpdate}>
                         <span className="text-danger">{this.state.errorMsg}</span>
                             <div className="input-group">
                                 <div className="custom-file">
                                     <input type="file" className="custom-file-input" onChange={this.imageChange} />
-                                    <label className="custom-file-label" htmlFor="inputGroupFile01">Choose new profile photo</label>
+                                    <label className="custom-file-label" htmlFor="inputGroupFile01">Choose profile photo</label>
                                 </div>
                             </div>
-                            <button className="btn btn-primary">Submit</button> 
+                            <button className="btn btn-primary mt-2">Submit</button> 
                             {hasSubmitted && <img src={loading} alt="progress loading" />}
                         </form>
                     </div>

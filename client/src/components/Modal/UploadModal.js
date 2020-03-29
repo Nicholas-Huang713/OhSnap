@@ -31,6 +31,12 @@ class UploadModal extends React.Component {
   uploadImage = (e) => {
     const {selectedFile, description} = this.state;
     const {firstName, profileImg} = this.props;
+    if(!selectedFile){
+      this.setState({
+        errorMsg: "No image selected"
+      })
+      return;
+    }
     if(description.length <= 2){
       e.preventDefault();
       this.setState({
@@ -82,7 +88,9 @@ class UploadModal extends React.Component {
             <div className="col-sm"></div>
             <div className="col-sm-8">
               <form onSubmit={(e) => this.uploadImage(e)} encType="multipart/form-data">
-                <img src={currentImage} className="img-thumbnail preview-img" alt="current upload preview" />
+                <div className="preview-img">
+                  <img src={currentImage} className="img-thumbnail img-fluid" alt="current upload preview" />
+                </div>
                 <div className="row">
                   <div className="col-sm"></div>
                   <div className="col-sm-9">

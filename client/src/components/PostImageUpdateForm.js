@@ -106,12 +106,13 @@ class ImageUpdateForm extends React.Component {
            current = currentImage; 
         }
         return (
-            <div className="container mt-3">
+            <div className="container mt-3 text-center">
                 <div className="row">
                     <div className="col-sm"></div>
                     <div className="col-sm-8">
                         <h5>Post Image Update</h5>
-                        <img src={current} className="img-thumbnail preview-img" alt="current profile" />
+                        <div className="preview-img"></div>
+                        <img src={current} className="img-thumbnail img-fluid" alt="current post" />
                         <form onSubmit={this.handleImageUpdate}>
                             <span className="text-danger">{this.state.errorMsg}</span>
                             <div className="input-group">

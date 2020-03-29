@@ -41,7 +41,7 @@ function NavBar() {
                 {
                     localStorage.getItem("token") &&
                         <span className="navbar-text">
-                            <Link to="/" onClick={() => localStorage.removeItem("token")} className="btn btn-dark">Signout</Link>
+                            <Link to="/" onClick={() => localStorage.removeItem("token")} className="btn btn-light btn-sm text-dark">Signout</Link>
                         </span>
                 }
             </div>

@@ -144,7 +144,8 @@ router.post('/register', async (req, res) => {
         lastname: req.body.lastname,
         email: req.body.email, 
         password: hashedPassword,
-        subscribed: req.body.subscribed
+        subscribed: req.body.subscribed,
+        imageData: "https://via.placeholder.com/500x450?text=No+Profile+Image+Chosen"
     });
     try{
         await user.save();
@@ -290,6 +291,13 @@ router.put('/updatepostimg/:postId', verifyToken, async (req, res, next) => {
 //GET ALL USERS
 router.get('/', (req, res) => {
     User.find({})
+    .then((data) => {res.json(data)})
+    .catch((error) => {console.log('Error: ' + error)});
+});
+
+//GET ALL USERS ORDER BY POSTS
+router.get('/getusers', (req, res) => {
+    User.find({}).sort({posts: -1})
     .then((data) => {res.json(data)})
     .catch((error) => {console.log('Error: ' + error)});
 });

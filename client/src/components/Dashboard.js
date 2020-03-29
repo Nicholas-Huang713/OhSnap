@@ -38,7 +38,7 @@ class Dashboard extends React.Component {
   retrieveAllUsers = () => {
     const jwt = getJwt();
     axios({
-      url: '/api/',
+      url: '/api/getusers',
       method: 'GET',
       headers: {'Authorization' : `Bearer ${jwt}`}
     })
@@ -234,9 +234,11 @@ class Dashboard extends React.Component {
             </Modal>
 
           </div>
-          <div className="col-sm">
-            <h5>Photographers</h5>
-            <div className="dashboard-user-list">
+          <div className="col-sm card">
+            <div className="card-header">
+              <h5>Most Active Users</h5>
+            </div>
+            <div className="dashboard-user-list mt-1">
               <ul className="list-unstyled">
               {
                 allUsers.map((user) => {
