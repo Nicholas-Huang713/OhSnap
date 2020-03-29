@@ -215,6 +215,25 @@ class Admin extends React.Component {
         });
     }
 
+    emailUser = (name, email) => {
+        const jwt = getJwt();
+        let info = {name, email};
+        axios({ 
+            url: '/api/emailUser',
+            method: 'POST',
+            data: info,
+            headers: {'Authorization' : `Bearer ${jwt}`}
+            })
+        .then(() => {
+            
+            console.log("Email sent");
+        })
+        .catch((err) => {
+            console.log('Error:' + err);
+        });
+        alert(`Email sent to ${name} @ ${email}`);
+    }
+
     render() {
         const {userId, firstName, lastName, profileImage, commentList, allUsers, postList, userCol, postCol, commentCol} = this.state;
         return (
@@ -226,7 +245,7 @@ class Admin extends React.Component {
                 <button onClick={this.handleCommentClick} className="btn btn-secondary">Comments</button>
                 <hr/>
                 <div className="row">
-                    <div className={`border-right border-left border-top bg-white col-${userCol}`}>
+                    <div className={`border-right border-left border-top bg-white col-sm-${userCol}`}>
                         <h3>Users <small className="bg-success text-white">(Admin)</small></h3>
                         <table className="table">
                             <thead>
@@ -253,7 +272,7 @@ class Admin extends React.Component {
                                                 <td>{user.firstname}</td>
                                             }
                                             <td>{user.lastname}</td>
-                                            <td><i className="fa fa-envelope-o"></i> {user.email}</td>
+                                            <td><i onClick={() => this.emailUser(user.firstname, user.email)} className="fa fa-envelope-o"></i> {user.email}</td>
                                             <td>{user.subscribed? <span className="text-primary">True</span> : <span className="text-danger">False</span>}</td>
                                             <td>{user.posts}</td>
                                             <td>
@@ -280,7 +299,7 @@ class Admin extends React.Component {
                             </tbody>
                         </table>
                     </div>
-                    <div className={`border-top border-right border-left bg-white col-${postCol}`}>
+                    <div className={`border-top border-right border-left bg-white col-sm-${postCol}`}>
                         <h3>Posts</h3>
                         <table className="table">
                             <thead>
@@ -312,7 +331,7 @@ class Admin extends React.Component {
                             </tbody>
                         </table>
                     </div>
-                    <div className={`border-top border-right border-left bg-white col-${commentCol}`}>
+                    <div className={`border-top border-right border-left bg-white col-sm-${commentCol}`}>
                         <h4>Comments</h4>
                         <table className="table">
                             <thead>

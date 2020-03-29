@@ -14,19 +14,19 @@ const url = require('url');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-// let transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: process.env.EMAIL,
-//         pass: process.env.PASSWORD
-//     }
-// })
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+    }
+})
 
 // let mailOptions = {
 //     from: 'ohsnapinfo713@gmail.com',
 //     to: 'nhuang713@gmail.com',
 //     subject: 'Test Email',
-//     text: 'Hello from Ohsnap!'
+//     text: 'Welcome to OhSnap!! '
 // }
 
 // transporter.sendMail(mailOptions, function(err, data) {
@@ -502,6 +502,28 @@ router.delete('/deleteComment/:id', verifyToken, (req, res) => {
             .catch((error) => {console.log('Error: ' + error)});
         })
     .catch((error) => {console.log('Error: ' + error)});
+})
+
+//SEND EMAIL TO USER
+router.post('/emailUser', verifyToken, (req,res) => {
+    let mailOptions = {
+        from: 'ohsnapinfo713@gmail.com',
+        to: req.body.email,
+        subject: 'ohSnap Says Hello',
+        html: `<h2>Hello ${req.body.name}!</h2> 
+               <p>This is an official email from OhSnap!</p>
+               <p>Please let us know if you have any questions. We'll be happy to help!</p>
+               <p>Sincerely,</p>
+               <p>The OhSnap Team</p>
+               <p>ohsnapinfo713@gmail.com</p>`
+    }
+    transporter.sendMail(mailOptions, function(err, data) {
+        if(err) {
+            console.log('Error Occurred');
+        } else {
+            console.log('Email sent!')
+        }
+    });
 })
 
 function verifyToken(req, res, next){
