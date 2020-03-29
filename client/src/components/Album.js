@@ -71,10 +71,6 @@ class Album extends React.Component {
         this.setState({ showModal: false });
     }
 
-    // handleOpenImageUpdateModal = () => {
-    //     this.setState({ showImageUpdateModal: true });
-    // }
-
     openImageUpdateModal = (postId) => {
         this.setState({
             showImageUpdateModal: true,

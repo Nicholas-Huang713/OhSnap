@@ -11,13 +11,18 @@ class Admin extends React.Component {
         this.state = {
             userId: "",
             profileImage: "",
+            userName: "",
+            selectedUserId: "",
             firstName: "",
             lastName: "",
+            email: "",
             currentList: "all",
+            currentUserList: "all",
             allUsers: [],
             postList: [],
             commentList: [],
-            postList: []
+            postList: [],
+            editInfo: ""
         };
     }
 
@@ -42,8 +47,7 @@ class Admin extends React.Component {
             }
             this.setState({
               profileImage: user[0].imageData,
-              firstName: user[0].firstname,
-              lastName: user[0].lastname,
+              userName: user[0].firstname + " " + user[0].lastname,
               userId: user[0]._id
             });
         })
@@ -100,6 +104,44 @@ class Admin extends React.Component {
         });
     }
 
+    retrieveAdmins = () => {
+        const jwt = getJwt();
+        axios({ 
+        url: '/api/getAdmins',
+        method: 'GET',
+        headers: {'Authorization' : `Bearer ${jwt}`}
+        })
+        .then((res) => {
+            const users = res.data;
+            this.setState({allUsers: users});
+        })
+        .catch((err) => {
+            console.log('Error:' + err);
+        });
+    }
+
+    retrieveSubscribers = () => {
+        const jwt = getJwt();
+        axios({ 
+        url: '/api/getSubscribed',
+        method: 'GET',
+        headers: {'Authorization' : `Bearer ${jwt}`}
+        })
+        .then((res) => {
+            const users = res.data;
+            this.setState({allUsers: users});
+        })
+        .catch((err) => {
+            console.log('Error:' + err);
+        });
+    }
+
+    handleChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({ [name] : value });
+    }
+
     handleUserClick = () => {
         this.setState({
             currentList: "user"
@@ -122,6 +164,108 @@ class Admin extends React.Component {
         this.setState({
             currentList: "all"
         })
+    }
+
+    openFirstNameForm = (userId, firstName) => {
+        this.setState({
+            selectedUserId: userId,
+            editInfo: firstName,
+            firstName
+        })
+    }
+
+    openLastNameForm = (userId, lastName) => {
+        this.setState({
+            selectedUserId: userId,
+            editInfo: lastName,
+            lastName
+        })
+    }
+
+    openEmailForm = (userId, email) => {
+        this.setState({
+            selectedUserId: userId,
+            editInfo: email,
+            email
+        })
+    }
+
+    editFirstName = (e) => {
+        e.preventDefault();
+        const {firstName, selectedUserId, currentUserList} = this.state;
+        const jwt = getJwt();
+        const info = {firstName, currentUserList};
+        axios({ 
+            url: `/api/editFirst/${selectedUserId}`,
+            method: 'PUT',
+            data: info,
+            headers: {'Authorization' : `Bearer ${jwt}`}
+            })
+            .then((res) => {
+                const allUsers = res.data;
+                this.retrieveUser();
+                this.retrieveAllPosts();
+                this.retrieveAllComments();
+                this.setState({
+                    allUsers,
+                    selectedUserId: "",
+                    editInfo: ""
+                });
+                
+            })
+            .catch((err) => {
+                console.log('Error:' + err);
+        });
+    }
+
+    editLastName = (e) => {
+        e.preventDefault();
+        const {lastName, selectedUserId} = this.state;
+        const jwt = getJwt();
+        const info = {lastName};
+        axios({ 
+            url: `/api/editLast/${selectedUserId}`,
+            method: 'PUT',
+            data: info,
+            headers: {'Authorization' : `Bearer ${jwt}`}
+            })
+            .then((res) => {
+                const allUsers = res.data;
+                this.retrieveUser();
+                this.setState({
+                    allUsers,
+                    selectedUserId: "",
+                    editInfo: ""
+                });
+            })
+            .catch((err) => {
+                console.log('Error:' + err);
+        });
+    }
+
+    editEmail = (e) => {
+        e.preventDefault();
+        const {email, selectedUserId} = this.state;
+        const jwt = getJwt();
+        const info = {email};
+        axios({ 
+            url: `/api/editEmail/${selectedUserId}`,
+            method: 'PUT',
+            data: info,
+            headers: {'Authorization' : `Bearer ${jwt}`}
+            })
+            .then((res) => {
+                const allUsers = res.data;
+                this.retrieveUser();
+                this.setState({
+                    allUsers,
+                    selectedUserId: "",
+                    editInfo: ""
+                });
+            })
+            .catch((err) => {
+                console.log('Error:' + err);
+        });
     }
     
     makeAdmin = (id) => {
@@ -225,11 +369,58 @@ class Admin extends React.Component {
         alert(`Email sent to ${name} @ ${email}`);
     }
 
+    subscribe = (id) => {
+        const jwt = getJwt();
+        axios({ 
+            url: `/api/subscribe/${id}`,
+            method: 'PUT',
+            headers: {'Authorization' : `Bearer ${jwt}`}
+            })
+        .then((res) => {
+            const allUsers = res.data;
+            this.setState({allUsers});
+        })
+        .catch((err) => {
+            console.log('Error:' + err);
+        });
+    }
+
+    unsubscribe = (id) => {
+        const jwt = getJwt();
+        axios({ 
+            url: `/api/unsubscribe/${id}`,
+            method: 'PUT',
+            headers: {'Authorization' : `Bearer ${jwt}`}
+            })
+        .then((res) => {
+            const allUsers = res.data;
+            this.setState({allUsers});
+        })
+        .catch((err) => {
+            console.log('Error:' + err);
+        });
+    }
+
+    setAllUserList = () => {
+        this.retrieveAllUsers();
+        this.setState({currentUserList: "all"});
+    }
+
+    setAdminUserList = () => {
+        this.retrieveAdmins();
+        this.setState({currentUserList: "admin"});
+    }
+
+    setSubscribedUserList = () => {
+        this.retrieveSubscribers();
+        this.setState({currentUserList: "subscribe"});
+    }
+
     render() {
-        const {userId, firstName, lastName, profileImage, commentList, allUsers, postList, currentList} = this.state;
+        const {userId, userName, firstName, lastName, email, profileImage, commentList, allUsers, postList, currentList, selectedUserId, editInfo} = this.state;
         return (
             <div className="container-fluid mt-3">
-                <h3><img src={profileImage} className="album-profile" alt="profile" /> {firstName} {lastName} (Admin)</h3>
+                <h3><img src={profileImage} className="album-profile" alt="profile" /> {userName} (Admin)</h3>
                 <button onClick={this.handleAllClick} className="btn btn-secondary ml-5">All</button> | 
                 <button onClick={this.handleUserClick} className="btn btn-secondary">Users</button> | 
                 <button onClick={this.handlePostClick} className="btn btn-secondary">Posts</button> | 
@@ -238,7 +429,17 @@ class Admin extends React.Component {
                 <div>
                     {currentList === "user" || currentList === "all" ?
                         <div>
-                            <h3>Users <small className="bg-success text-white">(Admin)</small></h3>
+                            <div className="row">
+                                <div className="col-sm">
+                                    <h3>Users <small className="bg-success text-white">(Admin)</small></h3>
+                                </div>
+                                <div className="col-sm">
+                                    <button onClick={this.setAllUserList} className="btn btn-secondary">All</button> | 
+                                    <button onClick={this.retrieveAdmins} className="btn btn-secondary">Admin</button> | 
+                                    <button onClick={this.retrieveSubscribers} className="btn btn-secondary">Subscribers</button> 
+                                </div>
+                            </div>
+                            
                             <div className="admin-list-style">
                                 
                                 <table className="table">
@@ -260,14 +461,73 @@ class Admin extends React.Component {
                                                 <tr key={user._id}>
                                                     <th>{user._id}</th>
                                                     <td><img src={user.imageData} className="post-profile" alt="profile"/></td>
-                                                    {user.admin ? 
-                                                        <td className="bg-success text-light">{user.firstname}</td>
+                                                    {
+                                                        selectedUserId === user._id && editInfo === user.firstname ?
+                                                            <td className={user.admin && "bg-success text-light"}>
+                                                                <form onSubmit={this.editFirstName}>
+                                                                    <div className="input-group mb-3">
+                                                                        <input type="text" 
+                                                                            className="form-control" 
+                                                                            name="firstName"                            
+                                                                            value={firstName}
+                                                                            onChange={this.handleChange}
+                                                                        />
+                                                                        <div className="input-group-append">
+                                                                            <button className="btn btn-outline-secondary" type="submit">&#10003;</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </td>
                                                         :
-                                                        <td>{user.firstname}</td>
+                                                            <td onClick={() => this.openFirstNameForm(user._id, user.firstname)} className={user.admin && "bg-success text-light"}>{user.firstname}</td>
                                                     }
-                                                    <td>{user.lastname}</td>
-                                                    <td><button onClick={() => this.emailUser(user.firstname, user.email)} className="btn btn-outline-dark"><i className="fa fa-envelope-o"></i></button> {user.email}</td>
-                                                    <td>{user.subscribed? <span className="text-primary">True</span> : <span className="text-danger">False</span>}</td>
+                                                    {
+                                                        selectedUserId === user._id && editInfo === user.lastname ?
+                                                            <td>
+                                                                <form onSubmit={this.editLastName}>
+                                                                    <div className="input-group mb-3">
+                                                                        <input type="text" 
+                                                                            className="form-control" 
+                                                                            name="lastName"                            
+                                                                            value={lastName}
+                                                                            onChange={this.handleChange}
+                                                                        />
+                                                                        <div className="input-group-append">
+                                                                            <button className="btn btn-outline-secondary" type="submit">&#10003;</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </td>
+                                                        :
+                                                            <td onClick={() => this.openLastNameForm(user._id, user.lastname)}>{user.lastname}</td>
+                                                    }
+                                                    {
+                                                        selectedUserId === user._id && editInfo === user.email ?
+                                                        <td>
+                                                            <form onSubmit={this.editEmail}>
+                                                                <div className="input-group mb-3">
+                                                                    <input type="text" 
+                                                                        className="form-control" 
+                                                                        name="email"                            
+                                                                        value={email}
+                                                                        onChange={this.handleChange}
+                                                                    />
+                                                                    <div className="input-group-append">
+                                                                        <button className="btn btn-outline-secondary" type="submit">&#10003;</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </td>
+                                                        :
+                                                        <td><button onClick={() => this.openEmailForm(user._id, user.email)} className="btn btn-outline-dark"><i className="fa fa-envelope-o"></i></button><span onClick={() => this.openEmailForm(user._id, user.email)}>{user.email}</span> </td>
+                                                    }
+                                                    <td>
+                                                        {user.subscribed? 
+                                                            <span onClick={() => this.unsubscribe(user._id)} className="btn btn-outline-primary">True <i className="fa fa-toggle-on display-4"></i></span> 
+                                                            : 
+                                                            <span onClick={() => this.subscribe(user._id)} className="btn btn-outline-danger">False <i className="fa fa-toggle-off display-4"></i></span>
+                                                        }
+                                                    </td>
                                                     <td>{user.posts}</td>
                                                     <td>
                                                         {userId === user._id ?
@@ -285,7 +545,11 @@ class Admin extends React.Component {
                                                     {(userId === user._id || user.admin) ?
                                                         <span></span>
                                                         :
-                                                        <th><i className="fa fa-trash-o" onClick={() => this.deleteUser(user._id)}></i></th>
+                                                        <th>
+                                                            <button onClick={() => this.deleteUser(user._id)} className="btn btn-outline-dark">
+                                                                <i className="fa fa-trash-o"></i>
+                                                            </button>
+                                                        </th>
                                                     }
                                                 </tr>
                                             )
@@ -325,7 +589,11 @@ class Admin extends React.Component {
                                                     <td><img src={post.profileImg} className="post-profile" alt="profile" /></td>
                                                     <td>{post.description}</td>
                                                     <td>{post.comments.length}</td>
-                                                    <td><i className="fa fa-trash-o" onClick={() => this.deletePost(post._id, post.creatorId)}></i></td>
+                                                    <td>
+                                                        <button onClick={() => this.deletePost(post._id, post.creatorId)} className="btn btn-outline-dark">
+                                                            <i className="fa fa-trash-o"></i>
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                             )
                                         })}
@@ -340,7 +608,6 @@ class Admin extends React.Component {
                         <div>
                             <h4>Comments</h4>
                             <div className="admin-list-style">
-                                
                                 <table className="table">
                                     <thead>
                                         <tr> 
@@ -362,7 +629,11 @@ class Admin extends React.Component {
                                                     <td><img src={comment.creatorImg} className="post-profile" alt="profile"/></td>
                                                     <td>{comment.content}</td>
                                                     <td>{comment.postId}</td>
-                                                    <td><i className="fa fa-trash-o" onClick={() => this.deleteComment(comment._id)}></i></td>
+                                                    <td>
+                                                        <button onClick={() => this.deleteComment(comment._id)} className="btn btn-outline-dark">
+                                                            <i className="fa fa-trash-o"></i>
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                             )
                                         })}

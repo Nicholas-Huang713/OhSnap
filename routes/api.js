@@ -479,6 +479,66 @@ router.delete('/deleteUser/:id', verifyToken, (req, res) => {
         })
     .catch((error) => {console.log('Error: ' + error)});
 })
+//ADMIN EDIT USER FIRST NAME
+router.put('/editFirst/:id', verifyToken, (req,res) => {
+    User.updateOne({_id: req.params.id}, {$set: {firstname: req.body.firstName}})
+    .then(() => {
+        Post.updateMany({creatorId: req.params.id}, {$set:{creatorName: req.body.firstName}})
+        .then(() => {
+            Comment.updateMany({creatorId: req.params.id}, {$set:{creatorName: req.body.firstName}})
+                .then(() => {
+                    if(req.body.currentUserList === "all"){
+                        User.find({})
+                        .then((data) => {
+                            res.json(data);
+                        })
+                        .catch((error) => console.log('Error: ' + error));
+                    } else if(req.body.currentUserList === "admin"){
+                        User.find({admin: true})
+                        .then((data) => {
+                            res.json(data);
+                        })
+                        .catch((error) => console.log('Error: ' + error));
+                    } else {
+                        User.find({subscribed: true})
+                        .then((data) => {
+                            res.json(data);
+                        })
+                        .catch((error) => console.log('Error: ' + error));
+                    }
+                })
+                .catch((error) => {console.log('Error: ' + error)});
+        })
+        .catch((error) => {console.log('Error: ' + error)});
+    })
+    .catch((error) => {console.log('Error: ' + error)});
+})
+
+//ADMIN EDIT USER LAST NAME
+router.put('/editLast/:id', verifyToken, (req,res) => {
+    User.updateOne({_id: req.params.id}, {$set: {lastname: req.body.lastName}})
+    .then(() => {
+        User.find({})
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((error) => {console.log('Error: ' + error)});
+    })
+    .catch((error) => {console.log('Error: ' + error)});
+})
+
+//ADMIN EDIT USER EMAIL
+router.put('/editEmail/:id', verifyToken, (req,res) => {
+    User.updateOne({_id: req.params.id}, {$set: {email: req.body.email}})
+    .then(() => {
+        User.find({})
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((error) => {console.log('Error: ' + error)});
+    })
+    .catch((error) => {console.log('Error: ' + error)});
+})
 
 //ADMIN DELETE POST
 router.delete('/deletePost/:id', verifyToken, (req, res) => {
@@ -532,6 +592,50 @@ router.post('/emailUser', verifyToken, (req,res) => {
             console.log('Email sent!')
         }
     });
+})
+
+//ADMIN SUBSCIBE USER
+router.put('/subscribe/:id', verifyToken, (req,res) => {
+    User.updateOne({_id: req.params.id}, {$set: {subscribed: true}})
+    .then(() => {
+        User.find({})
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((error) => {console.log('Error: ' + error)});
+    })
+    .catch((error) => {console.log('Error: ' + error)});
+})
+
+//ADMIN UNSUBSCRIBE USER
+router.put('/unsubscribe/:id', verifyToken, (req,res) => {
+    User.updateOne({_id: req.params.id}, {$set: {subscribed: false}})
+    .then(() => {
+        User.find({})
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((error) => {console.log('Error: ' + error)});
+    })
+    .catch((error) => {console.log('Error: ' + error)});
+})
+
+//GET ALL ADMIN USERS
+router.get('/getAdmins', verifyToken, (req,res) => {
+    User.find({admin: true})
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {console.log('Error: ' + error)});
+})
+
+//GET ALL SUBSCRIBED USERS
+router.get('/getSubscribed', verifyToken, (req,res) => {
+    User.find({subscribed: true})
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((error) => {console.log('Error: ' + error)});
 })
 
 function verifyToken(req, res, next){

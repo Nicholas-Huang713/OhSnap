@@ -92,9 +92,7 @@ class Dashboard extends React.Component {
 
   likePost = (id) => {
     const jwt = getJwt();
-    const postId = {
-      id
-    };
+    const postId = {id};
     axios({
         url: '/api/like',
         method: 'PUT',
@@ -129,7 +127,7 @@ class Dashboard extends React.Component {
   }
 
   handleOpenCommentModal = (postId) => {
-    this.setState({ showCommentModal: true, postId: postId });
+    this.setState({ showCommentModal: true, postId });
   }
     
   handleCloseCommentModal = () => {
