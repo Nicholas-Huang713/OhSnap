@@ -334,11 +334,13 @@ class Admin extends React.Component {
         });
     }
 
-    deleteComment = (commentId) => {
+    deleteComment = (commentId, postId) => {
         const jwt = getJwt();
+        const info = {postId}
         axios({ 
             url: `/api/deleteComment/${commentId}`,
             method: 'DELETE',
+            data: info,
             headers: {'Authorization' : `Bearer ${jwt}`}
             })
         .then((res) => {
@@ -401,19 +403,17 @@ class Admin extends React.Component {
         });
     }
 
-    setAllUserList = () => {
-        this.retrieveAllUsers();
-        this.setState({currentUserList: "all"});
-    }
-
-    setAdminUserList = () => {
-        this.retrieveAdmins();
-        this.setState({currentUserList: "admin"});
-    }
-
-    setSubscribedUserList = () => {
-        this.retrieveSubscribers();
-        this.setState({currentUserList: "subscribe"});
+    setUserList = (listType) => {
+        if(listType === "all"){
+            this.retrieveAllUsers();
+            this.setState({currentUserList: "all"});
+        } else if(listType === "admin"){
+            this.retrieveAdmins();
+            this.setState({currentUserList: "admin"});
+        } else {
+            this.retrieveSubscribers();
+            this.setState({currentUserList: "subscribe"});
+        }
     }
 
     render() {
@@ -434,9 +434,9 @@ class Admin extends React.Component {
                                     <h3>Users <small className="bg-success text-white">(Admin)</small></h3>
                                 </div>
                                 <div className="col-sm">
-                                    <button onClick={this.setAllUserList} className="btn btn-secondary">All</button> | 
-                                    <button onClick={this.retrieveAdmins} className="btn btn-secondary">Admin</button> | 
-                                    <button onClick={this.retrieveSubscribers} className="btn btn-secondary">Subscribers</button> 
+                                    <button onClick={() => this.setUserList("all")} className="btn btn-secondary">All</button> | 
+                                    <button onClick={() => this.setUserList("admin")} className="btn btn-secondary">Admin</button> | 
+                                    <button onClick={() => this.setUserList("subscribe")} className="btn btn-secondary">Subscribers</button> 
                                 </div>
                             </div>
                             
@@ -519,7 +519,12 @@ class Admin extends React.Component {
                                                             </form>
                                                         </td>
                                                         :
-                                                        <td><button onClick={() => this.openEmailForm(user._id, user.email)} className="btn btn-outline-dark"><i className="fa fa-envelope-o"></i></button><span onClick={() => this.openEmailForm(user._id, user.email)}>{user.email}</span> </td>
+                                                        <td>
+                                                            <button onClick={() => this.emailUser(user.firstname, user.email)} className="btn btn-outline-dark mr-2">
+                                                                <i className="fa fa-envelope-o"></i> 
+                                                            </button>
+                                                            <span onClick={() => this.openEmailForm(user._id, user.email)}>{user.email}</span> 
+                                                        </td>
                                                     }
                                                     <td>
                                                         {user.subscribed? 
@@ -630,7 +635,7 @@ class Admin extends React.Component {
                                                     <td>{comment.content}</td>
                                                     <td>{comment.postId}</td>
                                                     <td>
-                                                        <button onClick={() => this.deleteComment(comment._id)} className="btn btn-outline-dark">
+                                                        <button onClick={() => this.deleteComment(comment._id, comment.postId)} className="btn btn-outline-dark">
                                                             <i className="fa fa-trash-o"></i>
                                                         </button>
                                                     </td>

@@ -176,10 +176,18 @@ class Dashboard extends React.Component {
     }
     return (
       <div className="container-fluid mt-1">
+        {(profile === "https://via.placeholder.com/500x450?text=No+Profile+Image+Chosen") &&
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Your profile photo has not been set yet. Click on the profile preview to choose an image!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        }
         <div className="row">
           <div className="col-sm">
             <div className="card text-center">
-              <img className="card-img-top dashboard-profile" src={profile} alt="Profile Img" onClick={() => this.handleUserModals("showImageFormModal", true)}/>
+              <img className="card-img-top dashboard-profile" src={profile} alt="Profile" onClick={() => this.handleUserModals("showImageFormModal", true)}/>
               <div className="card-body">
                 <h5>{name}</h5>
                 <button onClick={() => this.handleUserModals("showProfileFormModal", true)} className="card-link btn btn-primary">Edit Profile</button>
@@ -212,11 +220,8 @@ class Dashboard extends React.Component {
                         :  
                           <img src={unliked} onClick={() => this.likePost(post._id)} className="post-profile" alt="like button" />
                         }  
-                        <img src={chatTwo} className="post-profile" onClick={() => this.handleOpenCommentModal(post._id)} alt="comment link" />
+                        <img src={chatTwo} className="post-profile mr-2" onClick={() => this.handleOpenCommentModal(post._id)} alt="comment link" />
                         {post.description}
-                        <div className="row ml-2">
-                          {post.likes.length} likes
-                        </div>
                       </div>
                       <div className="card-footer text-muted">
                         <small>{Date(post.date)}</small>

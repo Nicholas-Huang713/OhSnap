@@ -22,21 +22,6 @@ let transporter = nodemailer.createTransport({
     }
 })
 
-// let mailOptions = {
-//     from: 'ohsnapinfo713@gmail.com',
-//     to: 'nhuang713@gmail.com',
-//     subject: 'Test Email',
-//     text: 'Welcome to OhSnap!! '
-// }
-
-// transporter.sendMail(mailOptions, function(err, data) {
-//     if(err) {
-//         console.log('Error Occurred');
-//     } else {
-//         console.log('Email sent!')
-//     }
-// });
-
 //AWS SDK
 const s3 = new aws.S3({
     accessKeyId: process.env.ACCESS_KEY_ID,
@@ -54,7 +39,6 @@ const imgUpload = multer({
         cb(null, path.basename( file.originalname, path.extname( file.originalname ) ) + '-' + Date.now() + path.extname( file.originalname ) )
         }
     }),
-    // limits:{ fileSize: 5000000 }, 
     fileFilter: function( req, file, cb ){
      checkFileType( file, cb );
     }
@@ -215,7 +199,6 @@ router.put('/updateprofileimg', verifyToken, async (req, res, next) => {
             } else {
                 const imageName = req.file.key;
                 const imageLocation = req.file.location;
-                
                 User.updateOne({_id: decodedId},{$set:{imageData: imageLocation, imageName}})
                 .then(() => {
                     Post.updateMany({creatorId: decodedId}, {$set:{profileImg: imageLocation}})
@@ -546,26 +529,32 @@ router.delete('/deletePost/:id', verifyToken, (req, res) => {
     .then(() => {
         Post.deleteOne({_id: req.params.id})
         .then(() => {
-            Post.find({})
-            .then((data) => {
-                res.json(data);
+            Comment.deleteMany({creatorId: req.params.id})
+            .then(() => {
+                Post.find({})
+                .then((data) => {
+                    res.json(data);
+                })
+                .catch((error) => {console.log('Error: ' + error)});
             })
             .catch((error) => {console.log('Error: ' + error)});
         })
         .catch((error) => {console.log('Error: ' + error)});
     })
-    .catch((error) => {console.log('Error: ' + error)});
-
-    
+    .catch((error) => {console.log('Error: ' + error)});    
 })
 
 //ADMIN DELETE COMMENT
 router.delete('/deleteComment/:id', verifyToken, (req, res) => {
     Comment.deleteOne({_id: req.params.id})
         .then(() => {
-            Comment.find({})
-            .then((data) => {
-                res.json(data);
+            Post.updateOne({_id: req.body.postId}, {$pull: {comments: req.params.id}})
+            .then(() => {
+                Comment.find({})
+                .then((data) => {
+                    res.json(data);
+                })
+                .catch((error) => {console.log('Error: ' + error)});
             })
             .catch((error) => {console.log('Error: ' + error)});
         })
