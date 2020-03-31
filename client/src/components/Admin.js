@@ -220,9 +220,9 @@ class Admin extends React.Component {
 
     editLastName = (e) => {
         e.preventDefault();
-        const {lastName, selectedUserId} = this.state;
+        const {lastName, selectedUserId, currentUserList} = this.state;
         const jwt = getJwt();
-        const info = {lastName};
+        const info = {lastName, currentUserList};
         axios({ 
             url: `/api/editLast/${selectedUserId}`,
             method: 'PUT',
@@ -245,9 +245,9 @@ class Admin extends React.Component {
 
     editEmail = (e) => {
         e.preventDefault();
-        const {email, selectedUserId} = this.state;
+        const {email, selectedUserId, currentUserList} = this.state;
         const jwt = getJwt();
-        const info = {email};
+        const info = {email, currentUserList};
         axios({ 
             url: `/api/editEmail/${selectedUserId}`,
             method: 'PUT',
@@ -270,9 +270,12 @@ class Admin extends React.Component {
     
     makeAdmin = (id) => {
         const jwt = getJwt();
+        const {currentUserList} = this.state;
+        const info = {currentUserList};
         axios({ 
             url: `/api/makeAdmin/${id}`,
             method: 'PUT',
+            data: info,
             headers: {'Authorization' : `Bearer ${jwt}`}
             })
             .then((res) => {
@@ -286,9 +289,12 @@ class Admin extends React.Component {
 
     removeAdmin = (id) => {
         const jwt = getJwt();
+        const {currentUserList} = this.state;
+        const info = {currentUserList};
         axios({ 
             url: `/api/removeAdmin/${id}`,
             method: 'PUT',
+            data: info,
             headers: {'Authorization' : `Bearer ${jwt}`}
             })
             .then((res) => {
@@ -373,9 +379,12 @@ class Admin extends React.Component {
 
     subscribe = (id) => {
         const jwt = getJwt();
+        const {currentUserList} = this.state;
+        const info = {currentUserList}
         axios({ 
             url: `/api/subscribe/${id}`,
             method: 'PUT',
+            data: info,
             headers: {'Authorization' : `Bearer ${jwt}`}
             })
         .then((res) => {
@@ -389,9 +398,12 @@ class Admin extends React.Component {
 
     unsubscribe = (id) => {
         const jwt = getJwt();
+        const {currentUserList} = this.state;
+        const info = {currentUserList}
         axios({ 
             url: `/api/unsubscribe/${id}`,
             method: 'PUT',
+            data: info,
             headers: {'Authorization' : `Bearer ${jwt}`}
             })
         .then((res) => {

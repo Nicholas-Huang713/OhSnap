@@ -428,11 +428,25 @@ router.delete('/deletePost', verifyToken, (req, res) => {
 router.put('/makeAdmin/:id', verifyToken, (req,res) => {
     User.updateOne({_id: req.params.id}, {$set: {admin: true}})
     .then(() => {
-        User.find({})
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((error) => {console.log('Error: ' + error)});
+        if(req.body.currentUserList === "all"){
+            User.find({})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else if(req.body.currentUserList === "admin"){
+            User.find({admin: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else {
+            User.find({subscribed: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        }
     })
     .catch((error) => {console.log('Error: ' + error)});
 })
@@ -441,11 +455,25 @@ router.put('/makeAdmin/:id', verifyToken, (req,res) => {
 router.put('/removeAdmin/:id', verifyToken, (req,res) => {
     User.updateOne({_id: req.params.id}, {$set: {admin: false}})
     .then(() => {
-        User.find({})
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((error) => {console.log('Error: ' + error)});
+        if(req.body.currentUserList === "all"){
+            User.find({})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else if(req.body.currentUserList === "admin"){
+            User.find({admin: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else {
+            User.find({subscribed: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        }
     })
     .catch((error) => {console.log('Error: ' + error)});
 })
@@ -501,11 +529,25 @@ router.put('/editFirst/:id', verifyToken, (req,res) => {
 router.put('/editLast/:id', verifyToken, (req,res) => {
     User.updateOne({_id: req.params.id}, {$set: {lastname: req.body.lastName}})
     .then(() => {
-        User.find({})
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((error) => {console.log('Error: ' + error)});
+        if(req.body.currentUserList === "all"){
+            User.find({})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else if(req.body.currentUserList === "admin"){
+            User.find({admin: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else {
+            User.find({subscribed: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        }
     })
     .catch((error) => {console.log('Error: ' + error)});
 })
@@ -514,11 +556,25 @@ router.put('/editLast/:id', verifyToken, (req,res) => {
 router.put('/editEmail/:id', verifyToken, (req,res) => {
     User.updateOne({_id: req.params.id}, {$set: {email: req.body.email}})
     .then(() => {
-        User.find({})
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((error) => {console.log('Error: ' + error)});
+        if(req.body.currentUserList === "all"){
+            User.find({})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else if(req.body.currentUserList === "admin"){
+            User.find({admin: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else {
+            User.find({subscribed: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        }
     })
     .catch((error) => {console.log('Error: ' + error)});
 })
@@ -587,11 +643,25 @@ router.post('/emailUser', verifyToken, (req,res) => {
 router.put('/subscribe/:id', verifyToken, (req,res) => {
     User.updateOne({_id: req.params.id}, {$set: {subscribed: true}})
     .then(() => {
-        User.find({})
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((error) => {console.log('Error: ' + error)});
+        if(req.body.currentUserList === "all"){
+            User.find({})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else if(req.body.currentUserList === "admin"){
+            User.find({admin: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else {
+            User.find({subscribed: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        }
     })
     .catch((error) => {console.log('Error: ' + error)});
 })
@@ -600,11 +670,25 @@ router.put('/subscribe/:id', verifyToken, (req,res) => {
 router.put('/unsubscribe/:id', verifyToken, (req,res) => {
     User.updateOne({_id: req.params.id}, {$set: {subscribed: false}})
     .then(() => {
-        User.find({})
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((error) => {console.log('Error: ' + error)});
+        if(req.body.currentUserList === "all"){
+            User.find({})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else if(req.body.currentUserList === "admin"){
+            User.find({admin: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        } else {
+            User.find({subscribed: true})
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => console.log('Error: ' + error));
+        }
     })
     .catch((error) => {console.log('Error: ' + error)});
 })
