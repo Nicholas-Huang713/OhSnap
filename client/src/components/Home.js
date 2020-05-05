@@ -6,10 +6,8 @@ import phone from '../images/phone.jpg';
 import {withRouter, Link} from 'react-router-dom';
 
 class Home extends React.Component{
-    constructor( props ) {
-        super( props );
-        this.state = {
-        }
+    constructor(props) {
+        super( props);
       }
 
     render(){
