@@ -2,7 +2,7 @@
 Run Application 
 - npm run dev
 
-An social image uploading application that allows users to post pictures, comment on other's photos and add photos to their favorites album.
+OhSnap is a social media image uploading application that allows users to post pictures, comment on other's photos and add photos to their favorites album.
 This application was built wit the MERN Stack (MongoDB, Express, ReactJS, NodeJS).
 
 # What I Learned
