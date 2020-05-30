@@ -10,3 +10,4 @@ This application was built with the MERN Stack (MongoDB, Express, ReactJS, NodeJ
 - Uploading files to Amazon S3 using node package multer/multer S3
 - Storing file paths in database
 - CRUD operations for user posts
+- Implementing Redux for global state management
